@@ -10,16 +10,16 @@ import jakarta.persistence.*;
 public class RegistrarCarroEntidad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String marca;
     private int numero_ruedas;
     private String tipo_transmision;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

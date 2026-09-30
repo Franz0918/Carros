@@ -55,7 +55,7 @@ public class Operaciones {
 
         @Transactional
         public CarroDto ejecutar(Long id, CarroDto dto){
-            ActualizarCarroEntidad entidad=repository.findAllById(id)
+            ActualizarCarroEntidad entidad=repository.findById(id)
                     .orElseThrow(()-> new RuntimeException("no se puede actualizar carro ,ID no encontrado"+id));
             entidad.setMarca(dto.getMarca());
             entidad.setNumero_ruedas(dto.getNumero_ruedas());
@@ -74,7 +74,7 @@ public class Operaciones {
     public static class BorrarCarroTransaction {
         private final BorrarCarroRepository repository;
 
-        public BorrarCarroTransaction(BuscarCarroRepository repository) {
+        public BorrarCarroTransaction(BorrarCarroRepository repository) {
             this.repository = repository;
         }
 

@@ -1,6 +1,7 @@
 package com.candens.carros;
 
 
+import com.candens.carros.Dto.CarroDto;
 import com.candens.carros.Transactions.Operaciones;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,26 +25,26 @@ public class CarroController {
 
     //POST
     @PostMapping("/registrar")
-    public ResponseEntity<CarroDTO> postCarro(@RequestBody CarroDTO dto) {
+    public ResponseEntity<CarroDto> postCarro(@RequestBody CarroDto dto) {
         return ResponseEntity.ok(registrarTransaction.ejecutar(dto));
     }
 
     // GET
     @GetMapping("/buscar/{id}")
-    public ResponseEntity<CarroDTO> getCarro(@PathVariable Long id) {
+    public ResponseEntity<CarroDto> getCarro(@PathVariable Long id) {
         return ResponseEntity.ok(buscarTransaction.ejecutar(id));
     }
 
     // PUT
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<CarroDTO> putCarro(@PathVariable Long id, @RequestBody CarroDTO dto) {
+    public ResponseEntity<CarroDto> putCarro(@PathVariable Long id, @RequestBody CarroDto dto) {
         return ResponseEntity.ok(actualizarTransaction.ejecutar(id, dto));
     }
 
     // BORARA
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> deleteCarro(@PathVariable Long id) {
-        eliminarTransaction.ejecutar(id);
+        borrarTransacion.ejecutar(id);
         return ResponseEntity.noContent().build();
     }
 }

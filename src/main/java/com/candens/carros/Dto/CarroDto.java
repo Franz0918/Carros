@@ -1,14 +1,14 @@
 package com.candens.carros.Dto;
 
 public class CarroDto {
-    private long id;
+    private Long id;
     private String marca;
     private int numero_ruedas;
     private String tipo_transmision;
 
     //CONSTRUCTOR
     public CarroDto(){}
-    public CarroDto(long id, String marca, int numero_ruedas, String tipo_transmision) {
+    public CarroDto(Long id, String marca, int numero_ruedas, String tipo_transmision) {
         this.id = id;
         this.marca = marca;
         this.numero_ruedas = numero_ruedas;
@@ -16,11 +16,11 @@ public class CarroDto {
     }
 
     //GETTERS Y STTERES
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,5 +1,3 @@
-// POST 🐻nn
-//
 package com.candens.carros.Library;
 
 import jakarta.persistence.*;
@@ -7,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="carros")
 
-public class RegistrarCarroEntidad {
+public class BorrarCarroEntidad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

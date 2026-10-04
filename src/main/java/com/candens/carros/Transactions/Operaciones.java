@@ -25,7 +25,7 @@ public class Operaciones {
             String sql = "INSERT INTO carros (marca, numero_ruedas, tipo_transmision) VALUES (?, ?, ?)";
             Long idGenerado = null;
 
-            // Bloque try-with-resources que maneja y cierra la conexión automáticamente
+            // aaalll Bloque try-with-resources que maneja y cierra la conexión automáticamente
             try (Connection conexion = DriverManager.getConnection(url, user, password);
                  PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 

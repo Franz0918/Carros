@@ -37,7 +37,7 @@ public class Operaciones {
                 // Se ejecuta la inserción en la base de datos
                 ps.executeUpdate();
 
-                // Recuperamos el ID autoincremental que le asignó pgAdmin
+                // ssRecuperamos el ID autoincremental que le asignó pgAdmin
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) {
                         idGenerado = rs.getLong(1);

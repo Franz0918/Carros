@@ -94,7 +94,7 @@ public class Operaciones {
             return new CarroDto(entidad.getId(), entidad.getMarca(), entidad.getNumero_ruedas(), entidad.getTipo_transmision());
         }
     }*/
-    //ssGET
+    //GET
     @Service
     public static class BuscarCarroTransaction {
         private final BuscarCarroRepository repository;

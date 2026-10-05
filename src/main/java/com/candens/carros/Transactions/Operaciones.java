@@ -14,7 +14,7 @@ public class Operaciones {
     @Service // ESTO INDICA A SPRING Q ESTO TIENE LOGICA DE NEGOCIO
     public static class RegistrarCarroTransaction {
 
-        // DATOS CONEXIONS BADE DE DATOS PGADMIN4
+        // sDATOS CONEXIONS BADE DE DATOS PGADMIN4
         private final String url = "jdbc:postgresql://localhost:5432/carritos";
         private final String user = "postgres";
         private final String password = "TU_CONTRASEÑA_DE_PGADMIN";

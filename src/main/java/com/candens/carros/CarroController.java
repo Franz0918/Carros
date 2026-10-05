@@ -26,7 +26,7 @@ public class CarroController {
     }
 
     //POST
-    @PostMapping("/registrar") //ESCUCHA A INTERNET A LA DIRECCION ...registrar, si ESCUCHAS ALGO HAZ
+    @PostMapping("/registrar") //ECUCHA A INTERNET A LA DIRECCION ...registrar, si ESCUCHAS ALGO HAZ
     public ResponseEntity<CarroDto> postCarro(@RequestBody CarroDto dto) {//REQUEST TRADUCE JSON A LENGUAJE JAVA Y GUARDA LOS DATOS ENVIADOS EN BRUNO A LA NUEVA VARIABLE dto DE TIPO CarroDto y lo envia A OPERACIONES AL METODO ejecutar/RESPONSE ENTITY CONTENEDOR RPTAS WEB CON OBJETO TIPO CARRODTO
         return ResponseEntity.ok(registrarTransaction.ejecutar(dto)); // LO DEVUELVE A BRUNO CON UN OK 200 PERO ANTES POR MEDIO DE registrarTransaction ENVIA LOS DATOS ESCUCHADOS POR BRUNO A OPERACIONES Y LUEGO LO RECIBE DE OPERACIONES
     }

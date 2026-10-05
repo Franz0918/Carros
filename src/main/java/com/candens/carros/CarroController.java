@@ -8,17 +8,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController // INDICA Q ES UN CONTROLADOR
+    @RestController // INDICA Q ES UN CONTROLADOR
 @RequestMapping("/api/carros") //LA DIRECCION DEL URI
 
 public class CarroController {
 
     private final Operaciones.RegistrarCarroTransaction registrarTransaction;
     private final Operaciones.BuscarCarroTransaction buscarTransaction;
+
     private final Operaciones.ActualizarCarroTransaction actualizarTransaction;
     private final Operaciones.BorrarCarroTransaction borrarTransacion;
 
-    public CarroController(Operaciones.RegistrarCarroTransaction registrarTransaction, Operaciones.BuscarCarroTransaction buscarTransaction, Operaciones.ActualizarCarroTransaction actualizarTransaction, Operaciones.BorrarCarroTransaction borrarTransacion) {
+    public CarroController(Operaciones.RegistrarCarroTransaction registrarTransaction, Operaciones.BuscarCarroTransaction buscarTransaction, Operaciones.BorrarCarroTransaction borrarTransacion, Operaciones.ActualizarCarroTransaction actualizarTransaction) {
         this.registrarTransaction = registrarTransaction;
         this.buscarTransaction = buscarTransaction;
         this.actualizarTransaction = actualizarTransaction;

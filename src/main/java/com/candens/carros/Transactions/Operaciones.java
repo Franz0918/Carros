@@ -17,17 +17,19 @@ public class Operaciones {
         // DATOS CONEXIONS BADE DE DATOS PGADMIN4
         private final String url = "jdbc:postgresql://localhost:5432/carritos";
         private final String user = "postgres";
-        private final String password = "TU_CONTRASEÑA_DE_PGADMIN";
+        private final String password = "Los;petetes;2026";
 
         //AQUI EMPIEZA  A TRABAJAR BRUNO
 
         public CarroDto ejecutar(CarroDto dto){//ACA SE PIDE EL ARIBUTO CREADO EN EL CONTROLADOR dto TIPO CarroDto
-            String sql = "INSERT INTO carros (marca, numero_ruedas, tipo_transmision) VALUES (?, ?, ?)";
-            Long idGenerado = null;
+            String sql = "INSERT INTO carros (marca, numero_ruedas, tipo_transmision) VALUES (?, ?, ?)"; //? COMODIN O CASILLERO VACIAO PARA EVTIAR ATAQUES DE SQ, IN YECTION
+            Long idGenerado = null; // GENERAMOS VARIABLE VACIA PARA QUE POSTRES LE ASIGNE ID
 
             // aaalll Bloque try-with-resources que maneja y cierra la conexión automáticamente
-            try (Connection conexion = DriverManager.getConnection(url, user, password);
-                 PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            // ACA ABRIMOS CANAL DE COMUNICACION
+            try (Connection conexion = DriverManager.getConnection(url, user, password); //ABRE CANAL CE COMUNICACION OCN LOS DATOS DE ACCESO
+                 // SE VIAJA AL SERVIDOR Y VERIGICA Q LA SINTAXIS ESTE BIEN - PREPARACION
+                 PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) { //TOMA EL TEXTO SQL Y LO PREPARA EN EL SERVIDO POSTEGRES Y GENERA UNA COPIA DEL ID GENERICO
 
                 // Pasamos los parámetros de tu DTO al Query de SQL
                 ps.setString(1, dto.getMarca());
@@ -45,7 +47,7 @@ public class Operaciones {
                 }
 
             } catch (Exception e) {
-                throw new RuntimeException("Error al insertar el carro en la base de datos: " + e.getMessage());
+                throw new RuntimeException("PROBLEMITA al insertar el acrro en la base de datos: " + e.getMessage());
             }
             // Retornamos el DTO final con su ID real de base de datos
             return new CarroDto(idGenerado, dto.getMarca(), dto.getNumero_ruedas(), dto.getTipo_transmision());

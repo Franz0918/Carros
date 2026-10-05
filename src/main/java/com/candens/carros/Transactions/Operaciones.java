@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class Operaciones {
     // POST
-    @Service // ESTO INDICA A SPRING Q ESTO TIENE LOGICA DE NEGOCIO
+    @Service //ssss ESTO INDICA A SPRING Q ESTO TIENE LOGICA DE NEGOCIO
     public static class RegistrarCarroTransaction {
 
         // DATOS CONEXIONS BADE DE DATOS PGADMIN4

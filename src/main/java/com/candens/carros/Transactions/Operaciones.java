@@ -15,9 +15,10 @@ public class Operaciones {
     public static class RegistrarCarroTransaction {
 
         // DATOS CONEXIONS BADE DE DATOS PGADMIN4
+
         private final String url = "jdbc:postgresql://localhost:5432/carritos";
         private final String user = "postgres";
-        private final String password = "TU_CONTRASEÑA_DE_PGADMIN";
+        private final String password = "Los;petetes;2026";
 
         //AQUI EMPIEZA  A TRABAJAR BRUNO
 

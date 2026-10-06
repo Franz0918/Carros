@@ -1,7 +1,6 @@
     package com.candens.carros.Transactions;
 
 import com.candens.carros.Dto.CarroDto;
-import com.candens.carros.Library.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,91 +53,128 @@ public class Operaciones {
     }
 
 
-    /*
-    // POST
-    @Service // ESTO INDICA A SPRING Q ESTO TIENE LOGICA DE NEGOCIO
-    public static class RegistrarCarroTransaction {
-        private final RegistrarCarroRepository repository;//CREO LA VARIABLE repository QUE ES DE TIPO RegistrarCarroRepository, INMUTABle y privada
 
-        public RegistrarCarroTransaction(RegistrarCarroRepository repository) { //ACA SE CREA EL CONECTOR/VARIABLE TEMPORAL repository
+    //GET
+    @Service
+    public static class BuscarCarroTransaction {
 
-            this.repository = repository;         // de 14 a 18 es INYECCION DE DEPENDENCIAS POR CONSTRUCTOR
-        }
+        // DATOS CONEXIONS BADE DE DATOS PGADMIN4
+
+        private final String url = "jdbc:postgresql://localhost:5432/carritos";
+        private final String user = "postgres";
+        private final String password = "Los;petetes;2026";
 
         //AQUI EMPIEZA  A TRABAJAR BRUNO
-        @Transactional //pOR SEGURIDAD LO TRATA COMO UNA SOLA UNIDAD DE TRABAJO, LE DICE AL DB SI ALGO LEGA A FALLAR ACA DENTRO, HAZ UN ROLLBACK PARA QUE LA DB NO QUEDE CORRUPTA
-        public CarroDto ejecutar(CarroDto dto){//ACA SE PIDE EL ARIBUTO CREADO EN EL CONTROLADOR dto TIPO CarroDto
-            RegistrarCarroEntidad entidad=new RegistrarCarroEntidad();
-            entidad.setMarca(dto.getMarca());
-            entidad.setNumero_ruedas(dto.getNumero_ruedas());
-            entidad.setTipo_transmision(dto.getTipo_transmision());
 
-            RegistrarCarroEntidad saved=repository.save(entidad); // ACA LO GUARMADMOS EN POSTGRES y luego lo devolvemos en saved(SE GUARDA(.save) TODO LO DE entidad EN repository
-            return new CarroDto(saved.getId(),saved.getMarca(),saved.getNumero_ruedas(),saved.getTipo_transmision()); //LO DEVUELVE AL CONTROLADOR
+        public CarroDto ejecutar(Long id){//ACA SE PIDE EL ARIBUTO CREADO EN EL CONTROLADOR dto TIPO CarroDto
+            String sql = "SELECT id, marca, numero_ruedas, tipo_transmision FROM carros WHERE id = ?";
+            CarroDto carroEncontrado = null;
 
+            // aaalll Bloque try-with-resources que maneja y cierra la conexión automáticamente
+            try (Connection conexion = DriverManager.getConnection(url, user, password);
+                 PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+                ps.setLong(1, id);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    // Avanzamos el cursor a la primera fila si es que existe
+                    if (rs.next()) { //CUANDO LLEGAR A LA DB EL PUNTERO ESTA POSICIONADO EN UNA LINEA VACIA , POSICION CERO, MUEVE EL LECTOR  ALA PARIMERA LINEA DE DATOS
+                        carroEncontrado = new CarroDto(
+                                rs.getLong("id"),
+                                rs.getString("marca"),
+                                rs.getInt("numero_ruedas"),
+                                rs.getString("tipo_transmision")
+                        );
+                    } else {
+                        throw new RuntimeException("No existe ningún carro en pgAdmin con el ID: " + id);
+                    }
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException("Error en la consulta de búsqueda: " + e.getMessage());
+            }
+
+            // 5. Devolvemos el DTO relleno con los datos reales
+            return carroEncontrado;
         }
     }
-    */
-    /*//GET
+
+    // GET LIST
+
+
     @Service
-    public static class BuscarCarroTransaction {
-        private final BuscarCarroRepository repository;
+    public static class ListaCarrosTransaction {
 
-        public BuscarCarroTransaction(BuscarCarroRepository repository) {
-            this.repository = repository;
-        }
+        private final String url = "jdbc:postgresql://localhost:5432/carritos";
+        private final String user = "postgres";
+        private final String password = "Los;petetes;2026";
 
-        @Transactional(readOnly = true)
-        public CarroDto ejecutar(Long id) {
-            BuscarCarroEntidad entidad = repository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("carro no encontrado con ID" + id));
-            return new CarroDto(entidad.getId(), entidad.getMarca(), entidad.getNumero_ruedas(), entidad.getTipo_transmision());
-        }
-    }*/
-    //sssGET
-    @Service
-    public static class BuscarCarroTransaction {
-        private final BuscarCarroRepository repository;
-
-        public BuscarCarroTransaction(BuscarCarroRepository repository) {
-
-            this.repository = repository;
-        }
-
-        @Transactional(readOnly = true)
         public List<CarroDto> ejecutar() {
-            List<BuscarCarroEntidad> entidadLista = repository.findAll(); //EJECUTA COMANDO SQL
+            // Sentencia SQL nativa para traer todas las filas ordenadas por ID
+            String sql = "SELECT id, marca, numero_ruedas, tipo_transmision FROM carros ORDER BY id ASC";
+            List<CarroDto> listaCarros = new java.util.ArrayList<>();
 
-            return entidadLista.stream()// REGRESA LAS ENTIDADES EN UNA LISTRA ORDENADA  A MANERA DE FAJA TRANSPORTADORA
-                    .map(entidad -> new CarroDto(   //TRANSORMADOR DINAMICO , LLAMA AL CONSTRUCTOR LLENO DE CARRODTO Y ´POR CADA ENYIFDAD EXTRAE SUS DATOS
-                            entidad.getId(),
-                            entidad.getMarca(),
-                            entidad.getNumero_ruedas(),
-                            entidad.getTipo_transmision()
-                    ))
-                    .collect(Collectors.toList()); // RECOGE LOS NUEVOS Y LOS EMPQQUETA EN UNA NUELA LISTA
+            // aaalll Bloque try-with-resources que maneja y cierra la conexión automáticamente
+            try (Connection conexion = DriverManager.getConnection(url, user, password);
+                 PreparedStatement ps = conexion.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()){
+
+                CarroDto carro = new CarroDto(
+                        rs.getLong("id"),
+                        rs.getString("marca"),
+                        rs.getInt("numero_ruedas"),
+                        rs.getString("tipo_transmision")
+                );
+                // Añadimos cada carro procesado a nuestra lista dinámica de Java
+                listaCarros.add(carro);
+            }
+
+                } catch (Exception e) {
+                    throw new RuntimeException("Error al listar los carros de la base de datos: " + e.getMessage());
+                }
+
+                // Devolvemos la lista completa empaquetada
+                return listaCarros;
+            }
         }
-    }
 
     // PUT
     @Service
     public static class ActualizarCarroTransaction {
-        private final ActualizarCarroRepository repository;
 
-        public ActualizarCarroTransaction(ActualizarCarroRepository repository) {
-            this.repository = repository;
-        }
+        // DATOS CONEXIONS BADE DE DATOS PGADMIN4
 
-        @Transactional
-        public CarroDto ejecutar(Long id, CarroDto dto){
-            ActualizarCarroEntidad entidad=repository.findById(id)
-                    .orElseThrow(()-> new RuntimeException("no se puede actualizar carro ,ID no encontrado"+id));
-            entidad.setMarca(dto.getMarca());
-            entidad.setNumero_ruedas(dto.getNumero_ruedas());
-            entidad.setTipo_transmision(dto.getTipo_transmision());
+        private final String url = "jdbc:postgresql://localhost:5432/carritos";
+        private final String user = "postgres";
+        private final String password = "Los;petetes;2026";
 
-            ActualizarCarroEntidad actualizado = repository.save(entidad);
-            return new CarroDto(actualizado.getId(),actualizado.getMarca(),actualizado.getNumero_ruedas(),actualizado.getTipo_transmision());
+        public CarroDto ejecutar(Long id, CarroDto dto){//ACA SE PIDE EL ARIBUTO CREADO EN EL CONTROLADOR dto TIPO CarroDto
+            String sql = "UPDATE carros SET marca = ?, numero_ruedas = ?, tipo_transmision = ? WHERE id = ?";
+
+            // aaalll Bloque try-with-resources que maneja y cierra la conexión automáticamente
+            try (Connection conexion = DriverManager.getConnection(url, user, password);
+                 PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+                // Pasamos los parámetros del DTO al Query de SQL
+                ps.setString(1, dto.getMarca());
+                ps.setInt(2, dto.getNumero_ruedas());
+                ps.setString(3, dto.getTipo_transmision());
+                ps.setLong(4, id);
+
+                // Se ejecuta la inserción en la base de datos
+                int filasModificadas = ps.executeUpdate();
+
+                if (filasModificadas==0) {
+                    throw new RuntimeException("No se pudo actualizar. El carrito con ID " + id + " no existe.");
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException("PROBLEMITA AL INSERTAR TU CARRITO: " + e.getMessage());
+            }
+            // Retornamos el DTO final con su ID real de base de datos
+            return new CarroDto(id, dto.getMarca(), dto.getNumero_ruedas(), dto.getTipo_transmision());
 
         }
 
@@ -149,19 +185,31 @@ public class Operaciones {
     @Service
 
     public static class BorrarCarroTransaction {
-        private final BorrarCarroRepository repository;
 
-        public BorrarCarroTransaction(BorrarCarroRepository repository) {
+        // Datos directos de conexión a tu base de datos de pgAdmin 4
+        private final String url = "jdbc:postgresql://localhost:5432/carritos";
+        private final String user = "postgres";
+        private final String password = "Los;petetes;2026";
 
-            this.repository = repository;
-        }
-
-        @Transactional
         public void ejecutar(Long id) {
-            BorrarCarroEntidad entidad = repository.findById(id)
-                    .orElseThrow(()->new RuntimeException("no se puede eliminiar, id no cencontrado"+id));
-            repository.delete(entidad); //BOORA EN SQL
-        }
+            String sql = "DELETE FROM carros WHERE id = ?";
+
+            // 2. Bloque try-with-resources para manejar y cerrar la conexión automáticamente
+            try (Connection conexion = DriverManager.getConnection(url, user, password);
+                 PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+                ps.setLong(1, id);
+
+                int filasDeleted = ps.executeUpdate();
+
+                if (filasDeleted == 0) {
+                    throw new RuntimeException("No se pudo actualizar. El carro con ID " + id + " no existe.");
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException("PROBLEMITA ELIMINIAR: " + e.getMessage());
+            }
+            }
     }
 
 }

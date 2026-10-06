@@ -15,14 +15,17 @@ public class CarroController {
 
     private final Operaciones.RegistrarCarroTransaction registrarTransaction;
     private final Operaciones.BuscarCarroTransaction buscarTransaction;
+
+    private final Operaciones.ListaCarrosTransaction listarTransaction;
     private final Operaciones.ActualizarCarroTransaction actualizarTransaction;
     private final Operaciones.BorrarCarroTransaction borrarTransacion;
 
-    public CarroController(Operaciones.RegistrarCarroTransaction registrarTransaction, Operaciones.BuscarCarroTransaction buscarTransaction, Operaciones.ActualizarCarroTransaction actualizarTransaction, Operaciones.BorrarCarroTransaction borrarTransacion) {
+    public CarroController(Operaciones.RegistrarCarroTransaction registrarTransaction, Operaciones.BuscarCarroTransaction buscarTransaction,Operaciones.ListaCarrosTransaction listarTransaction, Operaciones.ActualizarCarroTransaction actualizarTransaction, Operaciones.BorrarCarroTransaction borrarTransacion) {
         this.registrarTransaction = registrarTransaction;
         this.buscarTransaction = buscarTransaction;
         this.actualizarTransaction = actualizarTransaction;
         this.borrarTransacion = borrarTransacion;
+        this.listarTransaction = listarTransaction;
     }
 
     //POST
@@ -31,18 +34,16 @@ public class CarroController {
         return ResponseEntity.ok(registrarTransaction.ejecutar(dto)); // LO DEVUELVE A BRUNO CON UN OK 200 PERO ANTES POR MEDIO DE registrarTransaction ENVIA LOS DATOS ESCUCHADOS POR BRUNO A OPERACIONES Y LUEGO LO RECIBE DE OPERACIONES
     }
 
-    /*// GET
-    @GetMapping("/buscar/{id}")
-    PERMISO         LO QUE                      NOMBRE      LO QUE NECESITA
-    ENTRADA         DEVUELVE
-    public          ResponseEntity<CarroDto>    getCarro    (@PathVariable Long id) {
-        return ResponseEntity.ok(buscarTransaction.ejecutar(id));
-    }*/
-
     // GET ENDPOINT
-    @GetMapping("/buscar")
-    public ResponseEntity<List<CarroDto>>getCarro() {
-        return ResponseEntity.ok(buscarTransaction.ejecutar());
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<CarroDto>getCarro(@PathVariable Long id) {
+        return ResponseEntity.ok(buscarTransaction.ejecutar(id));
+    }
+
+    // GET LIST
+    @GetMapping("/listar")
+    public ResponseEntity<List<CarroDto>>listCarro() {
+        return ResponseEntity.ok(listarTransaction.ejecutar());
     }
 
     // PUT  ENDPOINT

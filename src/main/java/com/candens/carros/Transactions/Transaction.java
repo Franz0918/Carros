@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Transaction {
 
-    //POST
+    //POST...
     @Service("RegistrarCarroEnvio")
     public static class RegistrarCarroEnvio {
         private final Operaciones.RegistrarCarroTransaction registrarTransaction = new Operaciones.RegistrarCarroTransaction();

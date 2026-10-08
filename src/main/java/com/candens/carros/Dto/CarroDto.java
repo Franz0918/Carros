@@ -15,7 +15,7 @@ public class CarroDto {
         this.tipo_transmision = tipo_transmision;
     }
 
-    //GETTERS Y STTERES kkkkk
+//GETTERS Y STTERES kkkkk
     public Long getId() {
         return id;
     }

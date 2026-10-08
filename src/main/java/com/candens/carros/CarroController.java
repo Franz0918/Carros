@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController // INDICA Q ES UN CONTROLADOR
+@RestController // INDICA Q ES UN CONTROLADOR REST
 
 @RequestMapping("/api/carros") //LA DIRECCION DEL URI
 

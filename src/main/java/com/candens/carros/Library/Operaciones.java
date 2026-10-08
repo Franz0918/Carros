@@ -19,7 +19,7 @@ public class Operaciones {
         private final String user = "postgres";
         private final String password = "Los;petetes;2026";
 
-        //AQUI EMPIEZA  A TRABAJAR BRUNO
+        //AQUI EMPIEZA  A TRABAJAR BRUNO ESPERANDO
 
         public CarroDto ejecutar(CarroDto dto){//ACA SE PIDE EL ARIBUTO CREADO EN EL CONTROLADOR dto TIPO CarroDto
             String sql = "INSERT INTO carros (marca, numero_ruedas, tipo_transmision) VALUES (?, ?, ?)";

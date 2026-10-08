@@ -43,7 +43,7 @@ public class CarroController {
         this.buscarTransaction = buscarTransaction;
         this.actualizarTransaction = actualizarTransaction;
         this.borrarTransacion = borrarTransacion;
->>>>>>> main
+
     }
 
     //POST

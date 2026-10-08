@@ -20,7 +20,7 @@ public class Transaction {
         }
     }
 
-    //GET
+    //GETs
     @Service("BuscarCarroEnvio")
     public static class BuscarCarroEnvio {
         private final Operaciones.BuscarCarroTransaction buscarTransaction = new Operaciones.BuscarCarroTransaction();

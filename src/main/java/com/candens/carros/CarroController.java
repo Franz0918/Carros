@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController // INDICA Q ES UN CONTROLADOR REST
+@RestController // INDICA Q ES UN CONTROLADOR, AQUI SE DEFINE PARA MODO ESCUCHA(SPRIG CON RESTCONTROLLER SE COMBINAN POR SER PARTEL API REST, LOVUELVE UN API)
 
 @RequestMapping("/api/carros") //LA DIRECCION DEL URI
 
@@ -31,16 +31,16 @@ public class CarroController {
 
 
     }
-
+//BODY ES PAYLOAD(DATO IMPORTANTE A PROCESAR)
     //POST
     @PostMapping("/registrar") //ECUCHA A INTERNET A LA DIRECCION ...registrar, si ESCUCHAS ALGO HAZ
-    public ResponseEntity<CarroDto> postCarro(@RequestBody CarroDto dto) {//REQUEST TRADUCE JSON A LENGUAJE JAVA Y GUARDA LOS DATOS ENVIADOS EN BRUNO A LA NUEVA VARIABLE dto DE TIPO CarroDto y lo envia A OPERACIONES AL METODO ejecutar/RESPONSE ENTITY CONTENEDOR RPTAS WEB CON OBJETO TIPO CARRODTO
+    public ResponseEntity<CarroDto> postCarro(@RequestBody CarroDto dto) {//REQUEST TRADUCE JSON A LENGUAJE JAVA Y GUARDA LOS DATOS ENVIADOS EN BRUNO A LA NUEVA VARIABLE dto DE TIPO CarroDto y lo envia A TRANSACCIONES POR EL METODO postcarro/RESPONSE ENTITY CONTENEDOR RPTAS WEB CON OBJETO TIPO CARRODTO
         return ResponseEntity.ok(registrarEnvio.ejecutarPost(dto)); // LO DEVUELVE A BRUNO CON UN OK 200 PERO ANTES POR MEDIO DE registrarTransaction ENVIA LOS DATOS ESCUCHADOS POR BRUNO A OPERACIONES Y LUEGO LO RECIBE DE OPERACIONES
     }
 
     // GET ENDPOINT
     @GetMapping("/buscar/{id}")
-    public ResponseEntity<CarroDto>getCarro(@PathVariable Long id) {
+    public ResponseEntity<CarroDto>getCarro(@PathVariable Long id) { //LO QUE VENGA DEL URI QUE ESTA ENTRE {} LO TOMA
         return ResponseEntity.ok(buscarEnvio.ejecutarGet(id));
     }
 

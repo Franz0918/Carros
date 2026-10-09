@@ -22,20 +22,22 @@ public class Operaciones {
         //AQUI EMPIEZA  A TRABAJAR BRUNO
 
         public CarroDto ejecutar(CarroDto dto){//ACA SE PIDE EL ARIBUTO CREADO EN EL CONTROLADOR dto TIPO CarroDto
-            String sql = "INSERT INTO carros (marca, numero_ruedas, tipo_transmision) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO carros (marca, numero_ruedas, tipo_transmision) VALUES (?, ?, ?)";//QUERY/CONSULTA
             Long idGenerado = null;
 
             // aaalll Bloque try-with-resources que maneja y cierra la conexión automáticamente
-            try (Connection conexion = DriverManager.getConnection(url, user, password);
+            try (Connection conexion = DriverManager.getConnection(url, user, password); //PARA AHORRA MEMORIA
                  PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-                // Pasamos los parámetros de tu DTO al Query de SQL
+                // Pasamos los parámetros de tu DTO al Query de SQL ------
                 ps.setString(1, dto.getMarca());
                 ps.setInt(2, dto.getNumero_ruedas());
                 ps.setString(3, dto.getTipo_transmision());
 
                 // Se ejecuta la inserción en la base de datos
                 ps.executeUpdate();
+
+                //conexion.close(); PARA CERRAR CONEXION SIN () DENTRO DEL TRY
 
                 // ssRecuperamos el ID autoincremental que le asignó pgAdmin
                 try (ResultSet rs = ps.getGeneratedKeys()) {
